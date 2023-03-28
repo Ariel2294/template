@@ -58,17 +58,6 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-## Docker image
-
-```bash
-# Build the docker image
-docker build -t mysql-image .
-
-# Create a Docker container using the image you just created
-
-docker run -p 3306:3306 --name mysql-container mysql-image
-```
-
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

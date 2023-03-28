@@ -1,23 +1,15 @@
-# Etapa de desarrollo
-FROM node:18.14.2-alpine3.17 AS development
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
-WORKDIR /usr/src/app
+FROM node:18.14.2-alpine3.17
+
+WORKDIR /opt/app
 
 COPY package*.json ./
-COPY prisma ./prisma
-RUN npm install glob rimraf
 RUN npm install
-COPY . .
+
+COPY . ./
+
+ENV PORT 3333
+
 RUN npm run prisma
 
-# Etapa de producción
-FROM node:18.14.2-alpine3.17 AS production
-WORKDIR /usr/src/app
-COPY --from=development /usr/src/app/package*.json ./
-RUN npm install --production --no-optional
-COPY --from=development /usr/src/app/prisma ./prisma
-COPY --from=development /usr/src/app/dist ./dist
-
-EXPOSE 8000
-CMD ["node", "dist/main"]
+EXPOSE 3333
+CMD ["npm", "run", "start:dev"]
