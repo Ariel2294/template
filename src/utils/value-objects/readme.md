@@ -1,0 +1,1 @@
+La carpeta value_objects es una subcarpeta dentro de la carpeta domain y contiene clases que representan objetos que tienen un valor en el sistema, pero no tienen una identidad única y no tienen un comportamiento.

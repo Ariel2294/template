@@ -1,0 +1,44 @@
+version: '3'
+services:
+  dev:
+    container_name: sport-design-service-backend
+    image: sport-design-service-backend:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_DEV}
+    command: npm run start:debug
+    ports:
+      - 8000:8000
+    depends_on:
+      - mariadb
+    networks:
+      - network-sport-design-service
+    volumes:
+      - .:/usr/src/app
+    restart: unless-stopped
+  mariadb:
+    container_name: sport-design-service-db
+    image: mariadb:10.4.8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: 'always'
+    networks:
+      - network-sport-design-service
+    volumes:
+      # Use this option to persist the MySQL DBs in a data volume.
+      - db_data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=sport-design
+      - MYSQL_USER=sport
+      - MYSQL_PASSWORD=123456
+volumes:
+  db_data:
+networks:
+  network-sport-design-service:
